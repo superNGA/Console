@@ -40,13 +40,38 @@ public:
 	Console_System(int8_t TextColor, int8_t Format, int8_t BackgroundColor);
 
 	//Creating and freeing Console
+	/**
+	* ALLocates a console
+	* only use in case of DLL else won't work
+	*/
 	bool CreateNewConsole();
+	/**
+	* Frees console
+	*/
 	bool FreeConsoleInstance();
 
 	//Other Functionality
+	/**
+	* prints a underscore line across the while console
+	*/
 	void DoDevider();
+	/**
+	* Prints out INSANE written in ascii art, changes this for advertising
+	*/
 	void DoIntroduction(); //types out creaters name in big letters
+	/**
+	* use the color sceme you passed in at the constructor else uses default colors
+	* default colors : white text , back background 
+	* FastLogMessage : Message to print
+	*/
 	void FastLog(const char* FastLogMessage); //fast meessage printing
+	/**
+	Logs a message to the console with the specified attributes.
+	LogMessage : The message to log.
+	TextColor : The foreground color of the text.
+	Format : The text format (e.g., bold or italic).
+	BackgroundColor : The background color of the text.
+	*/
 	void Log(const char* LogMessage, int8_t TextColor = FG_WHITE, int8_t Format = NORMAL, int8_t BackgroundColor = BG_BLACK); // prints message
 
 private:
