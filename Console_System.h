@@ -3,6 +3,7 @@
 
 
 #include <Windows.h>
+#include <stdio.h>
 #include <iostream>
 #include <chrono>
 #include <ctime>
@@ -64,7 +65,17 @@ public:
 	* default colors : white text , back background 
 	* FastLogMessage : Message to print
 	*/
-	void FastLog(const char* FastLogMessage); //fast meessage printing
+	template <typename T>
+	void FastLog(T FastLogMessage) //fast meessage printing
+	{
+		time_t NowTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+		tm* LocalTime = localtime(&NowTime);
+		//Printing time
+		printf("[ %d:%d:%d %s ] ", LocalTime->tm_hour > 12 ? LocalTime->tm_hour - 12 : LocalTime->tm_hour, LocalTime->tm_min, LocalTime->tm_sec, LocalTime->tm_hour > 12 ? "PM" : "AM");
+		printf("\033[%d;%d;%dm", D_Format, D_TextColor, D_BackgroundColor); //Setting up printing config
+		std::cout << FastLogMessage;
+		printf("\033[0m\n"); //resesting
+	}
 	/**
 	Logs a message to the console with the specified attributes.
 	LogMessage : The message to log.

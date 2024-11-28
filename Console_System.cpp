@@ -18,6 +18,13 @@ bool Console_System::CreateNewConsole()
 		FILE* file;
 		freopen_s(&file, "CONOUT$", "w", stdout); 
 		freopen_s(&file, "CONOUT$", "w", stderr); 
+
+		//Enabling colors or some shit
+		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		DWORD dwMode = 0;
+		GetConsoleMode(hOut, &dwMode);
+		dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+		SetConsoleMode(hOut, dwMode);
 		
 		return true;
 	}
@@ -72,18 +79,6 @@ void Console_System::DoIntroduction()
 
 	printf("\033[0m\n"); //reseting printing config
 	return;
-}
-
-void Console_System::FastLog(const char* FastLogMessage)
-{
-	time_t NowTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-	tm* LocalTime = localtime(&NowTime);
-
-	//Printing time
-	printf("[ %d:%d:%d %s ] ", LocalTime->tm_hour > 12 ? LocalTime->tm_hour - 12 : LocalTime->tm_hour, LocalTime->tm_min, LocalTime->tm_sec, LocalTime->tm_hour > 12 ? "PM" : "AM");
-
-	printf("\033[%d;%d;%dm", D_Format, D_TextColor, D_BackgroundColor); //Setting up printing config
-	printf("%s\033[0m\n", FastLogMessage); //printing text
 }
 
 void Console_System::Log(const char* LogMessage, int8_t TextColor, int8_t Format , int8_t BackgroundColor )
