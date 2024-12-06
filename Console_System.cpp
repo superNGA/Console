@@ -53,6 +53,7 @@ void Console_System::DoDevider()
 		{
 			printf("_");
 		}
+		printf("\n");
 	}
 	else
 	{
